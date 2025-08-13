@@ -1,0 +1,179 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@1&f[]=general-sans@1&display=swap');
+
+:root {
+    --font-title: 'Clash Display', sans-serif;
+    --font-body: 'General Sans', sans-serif;
+}
+
+*, *::before, ::after {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: #F0EDE4;
+    font-family: var(--font-body);
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.site-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px 85px;
+    z-index: 5;
+}
+
+.logo {
+    font-family: var(--font-title);
+    font-weight: bold;
+    font-size: 1.8rem;
+    text-decoration: none;
+    color: #004743;
+    margin: 0;
+}
+
+.logo span {
+    display: block;
+}
+
+.menu-btn {
+    background: none;
+    border: 2px solid #004743;
+    color: #004743;
+    padding: 12px 22px;
+    font-size: 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.hero {
+    height: calc(100vh - 260px);
+    height: calc(100svh - 260px);
+    width: 100vw;
+    padding: 50px 90px;
+    overflow-x: hidden;
+}
+
+.hero-text {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 5;
+}
+
+.hero-text > div {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100vw;
+}
+
+.hero-title {
+    font-family: var(--font-title);
+    font-size: clamp(3.2rem, 6vw, 5.2rem);
+    font-weight: bold;
+    margin-top: 15px;
+    color: #004743;
+}
+
+.greeting {
+    font-size: clamp(1.25rem, 2vw, 1.8rem);
+}
+
+.hero-paragraph {
+    font-size: clamp(1.25rem, 2vw, 1.4rem);
+    max-width: 800px;
+}
+
+.location {
+    color: #004743;
+    font-style: italic;
+    margin: 20px 0;
+    margin-top: auto;
+}
+
+.btn-download {
+    margin-top: 50px;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    background-color: #004743;
+    color: #fff;
+    text-decoration: none;
+    padding: 20px 25px 20px 45px;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: clamp(1.25rem, 1.6vw, 1.6rem);
+    gap: 4rem;
+}
+
+.icon-circle {
+    background-color: #F0EDE4;
+    color: #004743;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-image {
+    position: absolute;
+    top: 0;
+    right: 12%;
+    z-index: 0;
+    height: 750px;
+    width: 420px;
+    background: grey;
+    border-radius: 0 0 500px 500px;
+    background-image: url(../assets/images/pako-pfp.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+@media screen and (max-width: 1300px) {
+    .hero-image {
+        display: none;
+    }
+}
+
+.about-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+    padding: 2rem;
+    overflow-x: hidden;
+}
+
+.about-title {
+    font-size: 1.8rem;
+}
+
+.about-subtitle {
+    font-size: 1.2rem;
+}
+
+.about-text p {
+    line-height: 1.6;
+    text-align: justify;
+    margin-bottom: 1rem;
+}
+
+
+.skills-section {
+    overflow-x: hidden;
+    padding: 3rem 0;
+    .skills-title {
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    }
+}
