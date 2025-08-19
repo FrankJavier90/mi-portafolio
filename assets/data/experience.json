@@ -1,0 +1,80 @@
+{
+    "experiences": [
+        {
+        "company": "RAN Registro Agrario Nacional - Colima",
+        "position": "Jefe de Área de Informática",
+        "year": "2024",
+        "responsibilities": [
+            "Llevar a cabo las funciones de apoyo informático que requieran las áreas",
+            "Gestión de información en la plataforma SIMCR.",
+            "Clasificar e informar los incidentes de los servicios y equipos de la tecnología.",
+            "Proporcionar sistemas informáticos para facilitar los trabajos que requieran sistematizarse",
+            "Monitorear y controlar la operación de los dispositivos y comunicación de las TICs.",
+            "Proporcionar servicios de mantenimiento y/o correctivos a equipos y sistemas para mantenerse en buen estado y funcionamiento",
+            "Atender y ejecutar las solicitudes e incidentes de servicios de tecnología.",
+            "Control y mantenimiento del conmutador"
+        ]
+        },
+        {
+        "company": "Colegio Salesiano Cuauhtémoc",
+        "position": "Profesor",
+        "year": "2023",
+        "responsibilities": [
+            "Impartición de clases de computación (programacion en terceros) para la sección secundaria del instituto."
+        ]
+        },
+        {
+        "company": "RAN Registro Agrario Nacional - Colima",
+        "position": "Auxiliar Informático-Administrativo",
+        "year": "2021-2022",
+        "responsibilities": [
+            "Gestión de información en la plataforma SIMCR.",
+            "Administrador en la plataforma de citas en el RAN Colima.",
+            "Soporte técnico a equipo de cómputo del área administrativa.",
+            "Actualización y mejora en la base de datos para los sistemas administrativos internos."
+        ]
+        },
+        {
+        "company": "Grupo CEVER - Honda",
+        "position": "Coordinador de TI",
+        "year": "2016-2021",
+        "responsibilities": [
+            "Responsable de la seguridad y del óptimo funcionamiento de las tecnologías de la información de las sucursales de las 3 zonas.",
+            "Administrador de las redes y servidores de las sucursales, implementación de proyectos de mejora.",
+            "Gestión de las VPNs punto a punto de las sucursales al corporativo.",
+            "Administración y soporte técnico del ERP corporativo (Intelisis).",
+            "Gestión de la plataforma Honda Interactive, capacitación a usuarios finales.",
+            "Responsable del soporte técnico y mantenimiento a la infraestructura de cómputo.",
+            "Administrador de la consola KACE DELL para el control de la mesa de servicio del corporativo CEVER",
+            "Responsable de llevar la bitácora de facturas canceladas de los restaurantes y agencias automotrices de corporativo en ERP (Intelisis)"
+        ]
+        },
+        {
+        "company": "Colegio Fray Pedro de Gante Colima",
+        "position": "Profesor",
+        "year": "2015-2016",
+        "responsibilities": [
+            "Impartición de clases de computación para la sección primaria del instituto."
+        ]
+        },
+        {
+        "company": "Comisión Federal de Electricidad (CFE)",
+        "position": "Auxiliar Informático-Administrativo",
+        "year": "2013 a 2014.",
+        "responsibilities": [
+            "Actualización de las bases de datos para los sistemas administrativos y del almacén, según el cronograma de la Zona Central Morelia.",
+            "Generación de información de las plataformas de CFE para los usuarios finales.",
+            "Soporte técnico al equipo de cómputo del área administrativa.",
+            "Control y archivo de la documentación del área administrativa digitales."
+        ]
+        },
+        {
+        "company": "Nmoov",
+        "position": "Programador",
+        "year": "2013",
+        "responsibilities": [
+            "Programación del sitio de internet de la empresa (JavaScript, CSS, HTML)."
+        ]
+        }
+    ]
+}

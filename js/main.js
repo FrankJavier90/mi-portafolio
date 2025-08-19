@@ -1,3 +1,18 @@
+
+class DownloadHandler {
+    constructor(selector) {
+        const button = document.querySelector(selector);
+        if (!button) return;
+
+        button.addEventListener('click', e => {
+            e.preventDefault();
+            const link = document.createElement('a');
+            link.href = button.getAttribute('href');
+            link.download = button.getAttribute('download') || '';
+            link.click();
+        });
+    }
+}
 class FormValidator {
     constructor(selector) {
         this.form = document.querySelector(selector)
@@ -210,7 +225,53 @@ Saludos cordiales.`;
         setTimeout(() => msg.remove(), 4000);
     }
 }
+class ExperienceLoader {
+    constructor(selector) {
+        this.container = document.querySelector(selector);
+        if (!this.container) return;
+        this.loadExperiences();
+    }
+
+    async loadExperiences() {
+        try {
+            const response = await fetch('assets/data/experience.json');
+            const data = await response.json();
+            this.renderExperiences(data.experiences);
+        } catch (error) {
+            console.error('Error loading experiences:', error);
+            this.container.innerHTML = '<p>Error cargando experiencias</p>';
+        }
+    }
+
+    renderExperiences(experiences) {
+        const html = experiences.map(exp => this.createExperienceHTML(exp)).join('');
+        this.container.innerHTML = html;
+    }
+
+    createExperienceHTML(experience) {
+        const responsibilities = experience.responsibilities
+            .map(resp => `<li>${resp}</li>`)
+            .join('');
+
+        return `
+            <div class="experience-item">
+                <div class="experience-left">
+                    <h3 class="job-title">${experience.company}</h3>
+                    <p class="job-position">${experience.position}</p>
+                    <span class="job-year">${experience.year}</span>
+                </div>
+                <div class="experience-right">
+                    <ul class="job-responsibilities">
+                        ${responsibilities}
+                    </ul>
+                </div>
+            </div>
+        `;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+    new DownloadHandler('.btn-download');
+    new ExperienceLoader('#experience-list');
     new FormValidator('.contact-form');
 });
