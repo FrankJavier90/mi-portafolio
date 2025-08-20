@@ -275,3 +275,18 @@ document.addEventListener('DOMContentLoaded', () => {
     new ExperienceLoader('#experience-list');
     new FormValidator('.contact-form');
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const menuBtn = document.getElementById('menuBtn');
+    const menuDropdown = document.getElementById('menuDropdown');
+    menuBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menuDropdown.classList.toggle('active');
+    });
+    document.addEventListener('click', function() {
+        menuDropdown.classList.remove('active');
+    });
+    menuDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+});

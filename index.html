@@ -10,13 +10,32 @@
 </head>
 <body>
     <header class="site-header">
-        <div class="brand">
-            <a class="logo">Pako <span>Ramírez</span></a>
+    <div class="brand">
+        <a class="logo">Pako <span>Ramírez</span></a>
+    </div>
+    <nav class="main-nav">
+    <div class="menu-btn" id="menuBtn">
+        Menú
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-        <nav class="main-nav">
-            <button class="menu-btn">Menu</button>
-        </nav>
-    </header>
+        <div class="menu-dropdown" id="menuDropdown">
+            <div class="menu-item disabled">
+                <i class="fas fa-folder"></i>
+                Mis proyectos
+            </div>
+            <a href="https://www.linkedin.com/in/francisco-javier-ramirez-mendoza-856751267"
+                class="menu-item"
+                target="_blank">
+                <i class="fab fa-linkedin"></i>
+                Mi perfil LinkedIn
+            </a>
+        </div>
+    </div>
+</nav>
+</header>
     <main>
         <section class="hero">
                 <div class="hero-text">
@@ -45,30 +64,27 @@
                 <div class="about-text">
                     <p>
                         Soy ingeniero en telecomunicaciones que decidió dar un salto hacia el mundo del desarrollo web.
-                        Mi experiencia previa
-                        en redes y soporte técnico me ha permitido entender la tecnología desde
-                        diferentes ángulos, y ahora la aplico creando interfaces
-                        modernas, funcionales y responsivas.
+                        Mi experiencia previa en redes y soporte técnico me ha permitido entender la tecnología desde
+                        diferentes ángulos, y ahora la aplico creando interfaces modernas, funcionales y responsivas.
                     </p>
                     <p>
                         Me apasiona aprender nuevas herramientas y mejorar continuamente mis habilidades, combinando
-                        diseño y código para ofrecer<br>
-                        soluciones que realmente funcionen para el usuario final.
+                        diseño y código para ofrecer soluciones que realmente funcionen para el usuario final.
                     </p>
                 </div>
             </div>
         </section>
 <section class="skills-section">
-        <h2 class="skills-title">Habilidades técnicas</h2>
-        <div class="skills-icons">
-            <div><i class="fa-brands fa-html5"></i><p>HTML</p></div>
-            <div><i class="fa-brands fa-css3-alt"></i><p>CSS</p></div>
-            <div><i class="fa-brands fa-js-square"></i><p>JavaScript</p></div>
-            <div><i class="fa-brands fa-vuejs"></i><p>Vue</p></div>
-            <div><i class="fa-solid fa-circle-nodes"></i><p>Quasar</p></div>
-            <div><i class="fa-brands fa-sass"></i><p>Sass</p></div>
-            <div><i class="fa-brands fa-laravel"></i><p>Laravel</p></div>
-        </div>
+    <h2 class="skills-title">Habilidades técnicas</h2>
+    <div class="skills-icons">
+        <div><div class="skill-image html-img"></div><p>HTML</p></div>
+        <div><div class="skill-image css-img"></div><p>CSS</p></div>
+        <div><div class="skill-image js-img"></div><p>JavaScript</p></div>
+        <div><div class="skill-image vue-img"></div><p>Vue</p></div>
+        <div><div class="skill-image quasar-img"></div><p>Quasar</p></div>
+        <div><div class="skill-image sass-img"></div><p>Sass</p></div>
+        <div><div class="skill-image laravel-img"></div><p>Laravel</p></div>
+    </div>
 </section>
 <section class="experience-section">
     <div class="experience-container">
@@ -83,7 +99,6 @@
             <h2 class="contact-title">¿Programamos una charla?</h2>
             <p class="contact-subtitle">Contáctame usando el formulario siguiente o por los otros medios listados abajo</p>
         </div>
-
         <form class="contact-form">
             <div class="form-row">
                 <div class="form-group">
@@ -95,7 +110,6 @@
                     <input type="text" id="empresa" name="empresa" required>
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-group">
                     <label for="correo">Correo <span class="required">*</span></label>
@@ -106,17 +120,14 @@
                     <input type="tel" id="whatsapp" name="whatsapp">
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="asunto">Asunto <span class="required">*</span></label>
                 <input type="text" id="asunto" name="asunto" required>
             </div>
-
             <div class="form-group">
                 <label for="mensaje">Mensaje <span class="required">*</span></label>
                 <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
             </div>
-
             <button type="submit" class="btn-submit">
                 Enviar mensaje
                 <span class="submit-icon">
@@ -127,6 +138,21 @@
     </div>
 </section>
     </main>
+    <div class="floating-contact">
+    <a href="https://wa.me/5213125501053?text=Hola%20Pako,%20vi%20tu%20portafolio%20y%20me%20gustaría%20conversar%20sobre%20una%20oportunidad"
+        class="contact-icon whatsapp-icon"
+        target="_blank"
+    aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="contact-tooltip">WhatsApp: +52 312 550 1053</span>
+    </a>
+    <a href="mailto:ramirezmendozaf@gmail.com?subject=Oportunidad%20Laboral&body=Hola%20Pako,%0A%0AHe%20revisado%20tu%20portafolio%20y%20me%20gustaría%20conversar%20sobre%20una%20oportunidad."
+        class="contact-icon gmail-icon"
+        aria-label="Enviar email">
+        <i class="far fa-envelope"></i>
+        <span class="contact-tooltip">ramirezmendozaf@gmail.com</span>
+    </a>
+</div>
     <script src="js/main.js" ></script>
 </body>
 </html>
