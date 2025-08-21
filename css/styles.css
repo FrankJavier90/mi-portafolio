@@ -4,6 +4,7 @@
     --font-title: 'Clash Display', sans-serif;
     --font-body: 'General Sans', sans-serif;
     --color-primary: #004743;
+    --color-primary-20: #0047432e;
     --color-background: #F0EDE4;
     --padding-section: 50px 90px;
     --shadow-primary: rgba(0, 71, 67, 0.25);
@@ -12,6 +13,10 @@
 *, *::before, ::after {
     padding: 0;
     margin: 0;
+}
+
+p {
+    font-size: 1.2rem
 }
 
 body {
@@ -221,16 +226,11 @@ body {
 }
 
 .hero {
-    height: calc(100vh - 260px);
-    height: calc(100svh - 260px);
+    position: relative;
+    min-height: calc(100vh - 260px);
+    min-height: calc(100svh - 260px);
     width: 100vw;
     padding: var(--padding-section);
-    overflow-x: hidden;
-}
-@media screen and (width: 1366px) {
-    .hero {
-        padding-top: 150px;
-    }
 }
 
 .hero-text {
@@ -272,7 +272,7 @@ body {
     color: var(--color-primary);
     font-style: italic;
     margin: 20px 0;
-    margin-top: auto;
+    margin-top: 40px;
 }
 
 .btn-download {
@@ -309,11 +309,12 @@ body {
 
 .hero-image {
     position: absolute;
-    top: 0;
-    right: 12%;
-    z-index:  0;
-    height: 750px;
-    width: 420px;
+    top: -140px;
+    right: 19%;
+    z-index: 0;
+    height: calc(100%);
+    width: auto;
+    aspect-ratio: 9 / 16;
     background: grey;
     border-radius: 0 0 500px 500px;
     background-image: url(../assets/images/pako-pfp.jpg);
@@ -334,12 +335,12 @@ body {
     height: calc(60svh - 260px);
     width: 100vw;
     padding: var(--padding-section);
-    overflow-x: hidden;
 }
 
 @media screen and (min-width: 1300px) and (max-width: 1400px) {
     .about-section {
         margin-top: 20vh;
+
     }
 }
 
@@ -350,7 +351,6 @@ body {
     align-items: start;
     padding: 0;
     padding-right: 85px;
-    overflow-x: hidden;
 }
 
 .about-header {
@@ -365,13 +365,14 @@ body {
 }
 
 .about-title {
-    font-size: 1.8rem;
+    font-size: 2.4rem;
     white-space: pre-line;
     line-height: 1.1;
+    font-family: var(--font-title);
 }
 
 .about-subtitle {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--color-primary);
     font-weight: bold;
     margin: 0.5rem 0 0;
@@ -380,7 +381,6 @@ body {
 
 .about-text {
     padding-right: 85px;
-
 }
 
 .about-text p {
@@ -391,6 +391,7 @@ body {
 }
 
 .skills-section {
+    margin-top: 2rem;
     padding: var(--padding-section);
 }
 
@@ -398,6 +399,8 @@ body {
     padding: 20px 0;
     text-align: center;
     margin-bottom: 2rem;
+    font-size: 2.4rem;
+    font-family: var(--font-title);
 
 }
 
@@ -405,18 +408,19 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
     flex-wrap: wrap;
-    border-top: 2px solid var(--color-primary);
-    border-bottom: 2px solid var(--color-primary);
-    padding: 30px 0;
+    border-top: 2px solid var(--color-primary-20);
+    border-bottom: 2px solid var(--color-primary-20);
+    padding: 30px 20px;
+    max-width: 100%;
 }
 
 .skills-icons div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .skill-image {
@@ -457,10 +461,10 @@ body {
 
 .experience-title {
     font-family: var(--font-title);
-    font-size: 2rem;
+    font-size: 2.4rem;
     font-weight: bold;
     margin-top: 10rem;
-    margin-bottom: 10rem;
+    margin-bottom: 5rem;
 }
 
 .experience-item {
