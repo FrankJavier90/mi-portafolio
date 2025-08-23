@@ -20,6 +20,8 @@ p {
 }
 
 body {
+    max-width: 1900px;
+    margin: 0 auto;
     background-color: var(--color-background);
     font-family: var(--font-body);
     box-sizing: border-box;
@@ -229,8 +231,11 @@ body {
     position: relative;
     min-height: calc(100vh - 260px);
     min-height: calc(100svh - 260px);
-    width: 100vw;
+    width: 100%;
     padding: var(--padding-section);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .hero-text {
@@ -331,9 +336,7 @@ body {
 }
 
 .about-section {
-    height: calc(100vh - 260px);
-    height: calc(60svh - 260px);
-    width: 100vw;
+    width: 100%;
     padding: var(--padding-section);
 }
 
@@ -404,45 +407,41 @@ body {
 
 }
 
-.skills-icons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
+.skills-carousel {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
     border-top: 2px solid var(--color-primary-20);
     border-bottom: 2px solid var(--color-primary-20);
-    padding: 30px 20px;
-    max-width: 100%;
+    padding-block: 2rem
 }
 
-.skills-icons div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
+.skills-carousel:hover .skills-icons {
+    animation-play-state: paused;
 }
 
-.skill-image {
-    width: 60px;
-    height: 60px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: transform 0.3s ease;
+.skills-icons {
+    transition-property: transform;
+    display: inline-block;
+    animation: 20s slide-carousel infinite linear;
 }
 
-.skill-image:hover {
-    transform: scale(1.1);
+@keyframes slide-carousel{
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 
-.html-img { background-image: url(../assets/images/html.png); }
-.css-img { background-image: url(../assets/images/css.png); }
-.js-img { background-image: url(../assets/images/javascript.png); }
-.vue-img { background-image: url(../assets/images/Vue.png); }
-.quasar-img { background-image: url(../assets/images/Quasar.png); }
-.sass-img { background-image: url(../assets/images/Sass.png); }
-.laravel-img { background-image: url(../assets/images/laravel.png); }
+.skills-img {
+    width: 100px;
+    height: 100px;
+    aspect-ratio: 1;
+    object-fit: contain;
+    margin-inline: 5rem;
+}
 
 .about-text p {
     line-height: 1.6;
