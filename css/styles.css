@@ -436,12 +436,13 @@ body {
 }
 
 .skills-img {
-    width: 100px;
-    height: 100px;
+    width: clamp(60px, 8vw, 100px);
+    height: clamp(60px, 8vw, 100px);
     aspect-ratio: 1;
     object-fit: contain;
-    margin-inline: 5rem;
+    margin-inline: clamp(2rem, 4vw, 5rem);
 }
+
 
 .about-text p {
     line-height: 1.6;
@@ -666,5 +667,18 @@ body {
     .btn-submit {
         width: 100%;
         justify-content: space-between;
+    }
+}
+
+.site-footer {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    padding: var(--padding-section);
+    text-align: center;
+}
+
+@media screen and (max-width: 768px){
+    .site-footer{
+        padding: 30px;
     }
 }
