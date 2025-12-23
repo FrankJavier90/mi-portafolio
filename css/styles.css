@@ -383,8 +383,57 @@ p {
 }
 
 @media screen and (max-width: 1300px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: calc(50px + 100px);
+    }
+
+    .hero-text {
+        order: 2;
+        width: 100%;
+    }
+
     .hero-image {
-        display: none;
+        position: relative;
+        order: 1;
+        width: 220px;
+        height: 220px;
+        margin: 0 auto 30px auto;
+        border-radius: 50%;
+        right: auto;
+        top: auto;
+        box-shadow: 0 10px 25px var(--shadow-primary);
+        flex-shrink: 0;
+        aspect-ratio: 1 / 1;
+    }
+
+    .hero-title {
+        white-space: normal;
+        max-width: 95%;
+        margin-inline: auto;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .hero-paragraph {
+        margin-inline: auto;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-download {
+        margin-inline: auto;
+    }
+
+    .main-nav {
+        position: absolute;
+        top: 35px;
+        right: var(--padding-horizontal);
+    }
+
+    .main-nav.scrolled #menuBtn {
+        background-color: transparent;
+        box-shadow: none;
     }
 }
 
