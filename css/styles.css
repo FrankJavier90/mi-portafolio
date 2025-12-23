@@ -7,16 +7,21 @@
     --color-primary-20: #0047432e;
     --color-background: #F0EDE4;
     --padding-section: 50px 90px;
+    --padding-vertical: 50px;
+    --padding-horizontal: 90px;
+    --header-space: 100px;
     --shadow-primary: rgba(0, 71, 67, 0.25);
+    color-scheme: light;
 }
 
 *, *::before, ::after {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
-p {
-    font-size: 1.2rem
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -24,17 +29,32 @@ body {
     margin: 0 auto;
     background-color: var(--color-background);
     font-family: var(--font-body);
-    box-sizing: border-box;
     overflow-x: hidden;
 }
 
+p {
+    font-size: 1.2rem
+}
+
+/* Heder / Menu */
+
 .site-header {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 35px var(--padding-horizontal);
+    z-index: 1000;
+    background:transparent
+}
+
+.site-header.scrolled {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     padding: 35px 85px;
-    z-index: 5;
 }
 
 .logo {
@@ -51,6 +71,9 @@ body {
 }
 
 .menu-btn {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     background: none;
     border: 1px solid var(--color-primary);
     color: #004743;
@@ -66,6 +89,11 @@ body {
     transition: all 0.3s ease;
     position: relative;
     flex-direction: row-reverse;
+}
+
+.menu-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
 }
 
 .menu-btn:hover {
@@ -85,9 +113,19 @@ body {
     background-color: currentColor;
 }
 
+/* Menú desplegable */
+
+.main-nav {
+    position: fixed;
+    top: 35px;
+    right: var(--padding-horizontal);
+    z-index: 1002;
+    transition: all 0.3s ease;
+}
+
 .menu-dropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 3px);
     right: 0;
     background-color: var(--color-background);
     border: 1px solid var(--color-primary);
@@ -116,7 +154,8 @@ body {
     transition: background-color 0.2s ease;
 }
 
-.menu-item:hover:not(.disabled) {
+.menu-item:hover:not(.disabled),
+.menu-item:focus-visible {
     background-color: rgba(0, 71, 67, 0.05);
 }
 
@@ -128,6 +167,8 @@ body {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+/*Floating contact buttons*/
 
 .floating-contact {
     position: fixed;
@@ -153,7 +194,8 @@ body {
     box-shadow: 0 4px 12px rgba(0, 71, 67, 0.2);
 }
 
-.contact-icon:hover {
+.contact-icon:hover,
+.contact-icon:focus-visible {
     transform: translateX(-8px) scale(1.05);
     box-shadow: 0 6px 20px rgba(0, 71, 67, 0.3);
 }
@@ -171,6 +213,8 @@ body {
 .contact-icon i {
     font-size: 1.5rem;
 }
+
+/* Tooltip */
 
 .contact-tooltip {
     position: absolute;
@@ -203,7 +247,8 @@ body {
     border-bottom: 8px solid transparent;
 }
 
-.contact-icon:hover .contact-tooltip {
+.contact-icon:hover .contact-tooltip,
+.contact-icon:focus-visible .contact-tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateY(-50%) translateX(-5px);
@@ -227,15 +272,19 @@ body {
     }
 }
 
+/* Hero section */
+
 .hero {
     position: relative;
     min-height: calc(100vh - 260px);
     min-height: calc(100svh - 260px);
     width: 100%;
-    padding: var(--padding-section);
+    padding: 0 var(--padding-horizontal) var(--padding-vertical);
+    padding-top: calc(var(--padding-vertical) + var(--header-space));
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow: visible;
 }
 
 .hero-text {
@@ -250,7 +299,7 @@ body {
 .hero-text > div {
     margin-top: auto;
     margin-bottom: auto;
-    width: 100vw;
+    width: 100%;
 }
 
 .hero-title {
@@ -276,8 +325,7 @@ body {
 .location {
     color: var(--color-primary);
     font-style: italic;
-    margin: 20px 0;
-    margin-top: 40px;
+    margin: 40px 20px 0;
 }
 
 .btn-download {
@@ -297,9 +345,11 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-download:hover {
+.btn-download:hover,
+.btn-download:focus-visible {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px var(--shadow-primary);
+    outline: none;
 }
 
 .icon-circle {
@@ -312,21 +362,24 @@ body {
     justify-content: center;
 }
 
+/* Hero image */
+
 .hero-image {
     position: absolute;
-    top: -140px;
-    right: 19%;
+    top: 0;
+    right: 15%;
     z-index: 0;
-    height: calc(100%);
-    width: auto;
+    height: 100%;
     aspect-ratio: 9 / 16;
-    background: grey;
     border-radius: 0 0 500px 500px;
-    background-image: url(../assets/images/pako-pfp.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    margin-bottom: 40px;
+    overflow: hidden;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
 }
 
 @media screen and (max-width: 1300px) {
@@ -334,6 +387,8 @@ body {
         display: none;
     }
 }
+
+/* About section */
 
 .about-section {
     width: 100%;
@@ -352,7 +407,6 @@ body {
     grid-template-columns: 1fr 2fr;
     gap: 2rem;
     align-items: start;
-    padding: 0;
     padding-right: 85px;
 }
 
@@ -363,8 +417,6 @@ body {
     flex-direction: column;
     align-items: baseline;
     gap: 0.5rem;
-    padding: 0;
-    padding-left: 1.5rem;
 }
 
 .about-title {
@@ -393,6 +445,8 @@ body {
     position: relative;
 }
 
+/* Skills section */
+
 .skills-section {
     margin-top: 2rem;
     padding: var(--padding-section);
@@ -408,9 +462,10 @@ body {
 }
 
 .skills-carousel {
+    display: flex;
     overflow: hidden;
-    white-space: nowrap;
-    position: relative;
+    user-select: none;
+    gap: 0;
     border-top: 2px solid var(--color-primary-20);
     border-bottom: 2px solid var(--color-primary-20);
     padding-block: 2rem
@@ -421,17 +476,22 @@ body {
 }
 
 .skills-icons {
-    transition-property: transform;
-    display: inline-block;
-    animation: 20s slide-carousel infinite linear;
+    display: flex;
+    flex-shrink: 0;
+    min-width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    animation: 20s slide-carousel linear infinite;
 }
 
 @keyframes slide-carousel{
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0);
+    from { transform: translateX(-100%);}
+    to { transform: translateX(0);}
+}
+
+@media (prefers-reduced-motion: reduce){
+    .skills-icons {
+        animation: none;
     }
 }
 
@@ -443,12 +503,7 @@ body {
     margin-inline: clamp(2rem, 4vw, 5rem);
 }
 
-
-.about-text p {
-    line-height: 1.6;
-    text-align: justify;
-    margin-bottom: 1rem;
-}
+/* Experience section */
 
 .experience-section {
     padding: var(--padding-section) ;
@@ -521,6 +576,8 @@ body {
     font-weight: bold;
 }
 
+/* contact section */
+
 .contact-section {
     background-color: var(--color-primary);
     padding: 80px 90px;
@@ -569,6 +626,7 @@ body {
 .form-group {
     display: flex;
     flex-direction: column;
+    margin-bottom: 2rem;
 }
 
 .form-group label {
@@ -594,8 +652,8 @@ body {
     transition: border-color 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.form-group input:focus-visible,
+.form-group textarea:focus-visible {
     outline: none;
     border-bottom-color: var(--color-background);
 }
@@ -603,10 +661,6 @@ body {
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: rgba(240, 237, 228, 0.5);
-}
-
-.form-group:not(.form-row .form-group) {
-    margin-bottom: 2rem;
 }
 
 .form-group textarea {
@@ -620,7 +674,7 @@ body {
     justify-content: center;
     gap: 2rem;
     background-color: var(--color-background);
-    color: #004743;
+    color: var(--color-primary);
     border: none;
     padding: 18px 35px 18px 45px;
     border-radius: 100px;
@@ -633,9 +687,11 @@ body {
     width: fit-content;
 }
 
-.btn-submit:hover {
+.btn-submit:hover,
+.btn-submit:focus-visible {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    outline: none;
 }
 
 .submit-icon {
@@ -651,22 +707,8 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-    .contact-section {
-        padding: 60px 30px;
-    }
-
-    .contact-header {
-        margin-bottom: 3rem;
-    }
-
     .form-row {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .btn-submit {
-        width: 100%;
-        justify-content: space-between;
     }
 }
 
@@ -681,4 +723,17 @@ body {
     .site-footer{
         padding: 30px;
     }
+}
+
+.ok-msg {
+    margin-top: 0.75rem;
+    color: #007b5e;
+    font-size: 0.95rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.ok-msg.visible {
+    opacity: 1;
 }

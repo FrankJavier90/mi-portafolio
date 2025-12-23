@@ -20,7 +20,19 @@
         "position": "Profesor",
         "year": "2023",
         "responsibilities": [
-            "Impartición de clases de computación (programacion en terceros) para la sección secundaria del instituto."
+            "Impartición de clases de computación (programacion en terceros) para la sección secundaria del instituto.",
+            "Aplicación de metodologías activas para fomentar el aprendizaje práctico.",
+            "Evaluación del desempeño estudiantil y retroalimentación personalizada."
+        ]
+        },
+        {
+        "company": "CEPC Universidad",
+        "position": "Profesor",
+        "year": "2023",
+        "responsibilities": [
+            "Impartición de clases de informática a nivel bachillerato.",
+            "Diseño de contenidos y prácticas alineadas a competencias digitales.",
+            "Asesoría y acompañamiento a estudiantes en proyectos académicos."
         ]
         },
         {
@@ -54,7 +66,9 @@
         "position": "Profesor",
         "year": "2015-2016",
         "responsibilities": [
-            "Impartición de clases de computación para la sección primaria del instituto."
+            "Impartición de clases de computación para la sección primaria del instituto.",
+            "Introducción de conceptos básicos de informática y uso de herramientas digitales.",
+            "Estímulo del pensamiento lógico y desarrollo de habilidades tecnológicas en niños."
         ]
         },
         {

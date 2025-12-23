@@ -2,37 +2,56 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pako Ramírez — Desarrollador Web Front End</title>
+    <meta name="description" content="Portafolio de Pako Ramírez, desarrollador web front-end especializado en HTML, CSS y JavaScript. Diseño de interfaces accesibles y funcionales.">
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@700&f[]=general-sans@400,500,700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="site-header">
     <div class="brand">
-        <a class="logo">Pako <span>Ramírez</span></a>
+        <a href="#" class="logo" aria-label="Inicio - Pako Ramírez">
+            Pako<span>Ramírez</span></a>
     </div>
-    <nav class="main-nav">
-    <div class="menu-btn" id="menuBtn">
+<nav class="main-nav" aria-label="Navegación principal" >
+    <button class="menu-btn"
+            id="menuBtn"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="menuDropdown">
         Menú
-        <div class="hamburger">
+        <div class="hamburger" aria-hidden="true">
             <span></span>
             <span></span>
             <span></span>
         </div>
-        <div class="menu-dropdown" id="menuDropdown">
-            <div class="menu-item disabled">
-                <i class="fas fa-folder"></i>
-                Mis proyectos
-            </div>
-            <a href="https://www.linkedin.com/in/francisco-javier-ramirez-mendoza-856751267"
-                class="menu-item"
-                target="_blank">
-                <i class="fab fa-linkedin"></i>
-                Mi perfil LinkedIn
-            </a>
+    </button>
+    <div class="menu-dropdown" id="menuDropdown" aria-hidden="true" role="menu" inert>
+        <div class="menu-item disabled" aria-disabled="true">
+            <i class="fas fa-folder"></i>
+            Mis proyectos (Próximamente)
         </div>
+        <a href="#about" class="menu-item" role="menuitem" id="menuAbout">
+            <i class="fas fa-user"></i>
+            Acerca de mí
+        </a>
+        <a href="#experience" class="menu-item" role="menuitem" id="menuExperience">
+            <i class="fas fa-briefcase"></i>
+            Experiencia
+        </a>
+        <a
+            href="https://www.linkedin.com/in/francisco-javier-ramirez-mendoza-856751267"
+            class="menu-item"
+            target="_blank"
+            rel="noopener noreferrer">
+            <i class="fab fa-linkedin"></i>
+            LinkedIn
+        </a>
+        <a href="#contact" class="menu-item" role="menuitem" id="menuContact">
+    <i class="fas fa-paper-plane"></i>
+    Contacto
+</a>
     </div>
 </nav>
 </header>
@@ -41,25 +60,30 @@
                 <div class="hero-text">
                     <div>
                         <p class="greeting">Hola, soy Francisco Ramírez o Pako</p>
-                        <h1 class="hero-title">Desarrollador
+                        <h1 class="hero-title" id="hero-title">Desarrollador
                             Web Front End</h1>
-                        <p class="hero-paragraph">Apasionado por crear experiencia web funcionales y atractivas, usando tecnologias
+                        <p class="hero-paragraph">Apasionado por crear experiencias web funcionales y atractivas, usando tecnologías
                             modernas como Vue y Quasar Framework</p>
-                        <a href="./assets/CV/FRANCISCO-JAVIER-RAMIREZ-MENDOZA.pdf" class="btn-download" download>
+                        <a href="./assets/CV/FRANCISCO-JAVIER-RAMIREZ-MENDOZA.pdf" id="btnDownloadCV" class="btn-download" aria-label="Descargar curriculum de Francisco Javier Ramírez Mendoza en formato PDF"  download>
                         Descargar CV
                         <span class="icon-circle"><i class="fas fa-arrow-right"></i></span>
                         </a>
+                        <p id="downloadMsg" class="ok-msg" role="alert" aria-live="polite"></p>
                     </div>
-                    <p class="location">📍 Colima, México — Disponible para trabajo remoto o local</p>
+                    <p class="location" aria-label="Ubicación: Colima, México. Disponible para trabajo remoto o local" >📍 Colima, México — Disponible para trabajo remoto o local</p>
                 </div>
-                <div class="hero-image"></div>
+                <div class="hero-image">
+                        <img src="assets/images/pako-pfp.jpg"
+                                alt="Fotografía profesional de Pako Ramírez, Desarrollador Web Front-End"
+                                loading="eager">
+                </div>
         </section>
-        <section class="about-section">
+        <section class="about-section" id="about">
             <div class="about-container">
                 <div class="about-header">
                 <h2 class="about-title">De las redes al
                                         desarrollo</h2>
-                <p class="about-subtitle">ACERCA DE MI</p>
+                <p class="about-subtitle">ACERCA DE MÍ</p>
                 </div>
                 <div class="about-text">
                     <p>
@@ -78,34 +102,34 @@
     <h2 class="skills-title">Habilidades técnicas</h2>
     <div class="skills-carousel">
         <div class="skills-icons">
-            <img src="assets/images/html.png" class="skills-img" alt="">
-            <img src="assets/images/css.png" class="skills-img" alt="">
-            <img src="assets/images/JavaScript.png" class="skills-img" alt="">
-            <img src="assets/images/Vue.png" class="skills-img" alt="">
-            <img src="assets/images/Quasar.png" class="skills-img" alt="">
-            <img src="assets/images/Sass.png" class="skills-img" alt="">
-            <img src="assets/images/laravel.png" class="skills-img" alt="">
+            <img src="assets/images/html.png" class="skills-img" alt="Logo de HTML" loading="lazy">
+            <img src="assets/images/css.png" class="skills-img" alt="Logo de CSS" loading="lazy">
+            <img src="assets/images/JavaScript.png" class="skills-img" alt="Logo de JavaScript" loading="lazy">
+            <img src="assets/images/Vue.png" class="skills-img" alt="Logo de Vue.js" loading="lazy">
+            <img src="assets/images/Quasar.png" class="skills-img" alt="Logo de Quasar" loading="lazy">
+            <img src="assets/images/Sass.png" class="skills-img" alt="Logo de Sass" loading="lazy">
+            <img src="assets/images/laravel.png" class="skills-img" alt="Logo de laravel" loading="lazy">
         </div>
-        <div class="skills-icons">
-            <img src="assets/images/html.png" class="skills-img" alt="">
-            <img src="assets/images/css.png" class="skills-img" alt="">
-            <img src="assets/images/JavaScript.png" class="skills-img" alt="">
-            <img src="assets/images/Vue.png" class="skills-img" alt="">
-            <img src="assets/images/Quasar.png" class="skills-img" alt="">
-            <img src="assets/images/Sass.png" class="skills-img" alt="">
-            <img src="assets/images/laravel.png" class="skills-img" alt="">
+        <div class="skills-icons" aria-hidden="true">
+            <img src="assets/images/html.png" class="skills-img" alt="Logo de HTML" loading="lazy">
+            <img src="assets/images/css.png" class="skills-img" alt="Logo de CSS" loading="lazy">
+            <img src="assets/images/JavaScript.png" class="skills-img" alt="Logo de JavaScript" loading="lazy">
+            <img src="assets/images/Vue.png" class="skills-img" alt="Logo de Vue.js" loading="lazy">
+            <img src="assets/images/Quasar.png" class="skills-img" alt="Logo de Quasar" loading="lazy">
+            <img src="assets/images/Sass.png" class="skills-img" alt="Logo de Sass" loading="lazy">
+            <img src="assets/images/laravel.png" class="skills-img" alt="Logo de laravel" loading="lazy">
         </div>
     </div>
 
 </section>
-<section class="experience-section">
+<section class="experience-section" id="experience">
     <div class="experience-container">
         <h2 class="experience-title">Mi Experiencia</h2>
-        <div id="experience-list">
+        <div id="experience-list" role="list" aria-label="Lista de Experiencias profesionales">
         </div>
     </div>
 </section>
-<section class="contact-section">
+<section class="contact-section" id="contact" >
     <div class="contact-container">
         <div class="contact-header">
             <h2 class="contact-title">¿Programamos una charla?</h2>
@@ -115,17 +139,17 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="nombre">Nombre del representante <span class="required">*</span></label>
-                    <input type="text" id="nombre" name="nombre" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
                 </div>
                 <div class="form-group">
                     <label for="empresa">Empresa <span class="required">*</span></label>
-                    <input type="text" id="empresa" name="empresa" required>
+                    <input type="text" id="empresa" name="empresa" placeholder="Nombre de la empresa" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="correo">Correo <span class="required">*</span></label>
-                    <input type="email" id="correo" name="correo" required>
+                    <input type="email" id="correo" name="correo" placeholder="@correo.com" required>
                 </div>
                 <div class="form-group">
                     <label for="whatsapp">Whatsapp</label>
@@ -138,7 +162,7 @@
             </div>
             <div class="form-group">
                 <label for="mensaje">Mensaje <span class="required">*</span></label>
-                <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                <textarea id="mensaje" name="mensaje" rows="5" placeholder="Deja tu mensaje aqui" required></textarea>
             </div>
             <button type="submit" class="btn-submit">
                 Enviar mensaje
@@ -146,6 +170,7 @@
                     <i class="fa-regular fa-paper-plane"></i>
                 </span>
             </button>
+            <p id="formMsg" class="ok-msg" role="alert" aria-live="assertive"></p>
         </form>
     </div>
 </section>
@@ -154,7 +179,7 @@
     <a href="https://wa.me/5213125501053?text=Hola%20Pako,%20vi%20tu%20portafolio%20y%20me%20gustaría%20conversar%20sobre%20una%20oportunidad"
         class="contact-icon whatsapp-icon"
         target="_blank"
-    aria-label="Contactar por WhatsApp">
+        aria-label="Contactar por WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="contact-tooltip">WhatsApp: +52 312 550 1053</span>
     </a>
@@ -165,9 +190,9 @@
         <span class="contact-tooltip">ramirezmendozaf@gmail.com</span>
     </a>
 </div>
-<footer class="site-footer" >
-    &copy; 2025 Todos los derechos reservados.Pako Ramírez|Desarrollador Front-end
+<footer class="site-footer" role="contentinfo">
+    &copy; 2025 Todos los derechos reservados. Pako Ramírez | Desarrollador Front-end
 </footer>
-    <script src="js/main.js" ></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
