@@ -214,7 +214,7 @@ class FormValidator {
         Saludos cordiales.`;
     }
 
-    /* --- INTERFAZ VISUAL Y UTILIDADES --- */
+    /* INTERFAZ VISUAL Y UTILIDADES */
     getValue(name) {
         return this.form.querySelector(`[name="${name}"]`)?.value.trim() || '';
     }

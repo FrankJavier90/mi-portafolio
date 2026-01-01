@@ -1,12 +1,30 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-MX">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pako Ramírez — Desarrollador Web Front End</title>
-    <meta name="description" content="Portafolio de Pako Ramírez, desarrollador web front-end especializado en HTML, CSS y JavaScript. Diseño de interfaces accesibles y funcionales.">
+
+    <meta name="description" content="Desarrollador Web Front End especializado en Vue y Quasar.">
+    <meta name="keywords" content="Francisco Ramírez, Pako, Front End, Mexico, Vue">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://frankjavier90.github.io/mi-portafolio/">
+    <meta property="og:title" content="Francisco Ramírez | Front End Developer">
+    <meta property="og:description" content="Interfaces modernas y código limpio.">
+    <meta property="og:image" content="assets/img/tu-foto-preview.jpg">
+    <meta property="og:locale" content="es_MX">
+
+    <link rel="icon" type="image/x-icon" href="assets/favicons/img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/img/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/img/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicons/img/site.webmanifest">
+
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 <body>
     <header class="site-header">
@@ -28,10 +46,10 @@
         </div>
     </button>
     <div class="menu-dropdown" id="menuDropdown" aria-hidden="true" role="menu" inert>
-        <div class="menu-item disabled" aria-disabled="true">
-            <i class="fas fa-folder"></i>
-            Mis proyectos (Próximamente)
-        </div>
+        <a href="#hero" class="menu-item" role="menuitem" id="menuHome">
+            <i class="fas fa-home"></i>
+        Inicio
+        </a>
         <a href="#about" class="menu-item" role="menuitem" id="menuAbout">
             <i class="fas fa-user"></i>
             Acerca de mí
@@ -40,37 +58,37 @@
             <i class="fas fa-briefcase"></i>
             Experiencia
         </a>
-        <a
-            href="https://www.linkedin.com/in/francisco-javier-ramirez-mendoza-856751267"
-            class="menu-item"
-            target="_blank"
-            rel="noopener noreferrer">
+        <a href="https://github.com/FrankJavier90" class="menu-item" role="menuitem" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i>
+            Mi código (GitHub)
+        </a>
+        <a href="#contact" class="menu-item" role="menuitem" id="menuContact">
+            <i class="fas fa-paper-plane"></i>
+            Contacto
+        </a>
+        <a href="https://www.linkedin.com/in/francisco-javier-ramirez-mendoza-856751267" class="menu-item" target="_blank" rel="noopener noreferrer">
             <i class="fab fa-linkedin"></i>
             LinkedIn
         </a>
-        <a href="#contact" class="menu-item" role="menuitem" id="menuContact">
-    <i class="fas fa-paper-plane"></i>
-    Contacto
-</a>
     </div>
 </nav>
 </header>
     <main>
-        <section class="hero">
+        <section class="hero" id="hero">
                 <div class="hero-text">
                     <div>
                         <p class="greeting">Hola, soy Francisco Ramírez o Pako</p>
-                        <h1 class="hero-title" id="hero-title">Desarrollador
-                            Web Front End</h1>
+                            <h1 class="hero-title" id="hero-title">Desarrollador
+                                Web Front End</h1>
                         <p class="hero-paragraph">Apasionado por crear experiencias web funcionales y atractivas, usando tecnologías
                             modernas como Vue y Quasar Framework</p>
                         <a href="./assets/CV/FRANCISCO-JAVIER-RAMIREZ-MENDOZA.pdf" id="btnDownloadCV" class="btn-download" aria-label="Descargar curriculum de Francisco Javier Ramírez Mendoza en formato PDF"  download>
                         Descargar CV
-                        <span class="icon-circle"><i class="fas fa-arrow-right"></i></span>
+                            <span class="icon-circle"><i class="fas fa-arrow-right"></i></span>
                         </a>
                         <p id="downloadMsg" class="ok-msg" role="alert" aria-live="polite"></p>
                     </div>
-                    <p class="location" aria-label="Ubicación: Colima, México. Disponible para trabajo remoto o local" >📍 Colima, México — Disponible para trabajo remoto o local</p>
+                        <p class="location" aria-label="Ubicación: Colima, México. Disponible para trabajo remoto o local" >📍 Colima, México — Disponible para trabajo remoto o local</p>
                 </div>
                 <div class="hero-image">
                         <img src="assets/images/pako-pfp.jpg"
@@ -81,9 +99,9 @@
         <section class="about-section" id="about">
             <div class="about-container">
                 <div class="about-header">
-                <h2 class="about-title">De las redes al
-                                        desarrollo</h2>
-                <p class="about-subtitle">ACERCA DE MÍ</p>
+                    <h2 class="about-title">De las redes al
+                                            desarrollo</h2>
+                        <p class="about-subtitle">ACERCA DE MÍ</p>
                 </div>
                 <div class="about-text">
                     <p>
@@ -125,8 +143,7 @@
 <section class="experience-section" id="experience">
     <div class="experience-container">
         <h2 class="experience-title">Mi Experiencia</h2>
-        <div id="experience-list" role="list" aria-label="Lista de Experiencias profesionales">
-        </div>
+        <div id="experience-list" role="list" aria-label="Lista de Experiencias profesionales"></div>
     </div>
 </section>
 <section class="contact-section" id="contact" >
@@ -176,13 +193,13 @@
 </section>
     </main>
     <div class="floating-contact">
-    <a href="https://wa.me/5213125501053?text=Hola%20Pako,%20vi%20tu%20portafolio%20y%20me%20gustaría%20conversar%20sobre%20una%20oportunidad"
-        class="contact-icon whatsapp-icon"
-        target="_blank"
-        aria-label="Contactar por WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-        <span class="contact-tooltip">WhatsApp: +52 312 550 1053</span>
-    </a>
+        <a href="https://wa.me/5213125501053?text=Hola%20Pako,%20vi%20tu%20portafolio%20y%20me%20gustaría%20conversar%20sobre%20una%20oportunidad"
+            class="contact-icon whatsapp-icon"
+            target="_blank"
+            aria-label="Contactar por WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="contact-tooltip">WhatsApp: +52 312 550 1053</span>
+        </a>
     <a href="mailto:ramirezmendozaf@gmail.com?subject=Oportunidad%20Laboral&body=Hola%20Pako,%0A%0AHe%20revisado%20tu%20portafolio%20y%20me%20gustaría%20conversar%20sobre%20una%20oportunidad."
         class="contact-icon gmail-icon"
         aria-label="Enviar email">
