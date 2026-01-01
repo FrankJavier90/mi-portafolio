@@ -378,6 +378,7 @@ p {
 .hero-image img {
     width: 100%;
     height: 100%;
+    max-width: 100%;
     object-fit: cover;
 
 }
@@ -756,8 +757,8 @@ p {
 }
 
 @media screen and (max-width: 768px) {
-    .form-row {
-        grid-template-columns: 1fr;
+    .contact-section {
+        padding: 60px 20px;
     }
 }
 
@@ -785,4 +786,33 @@ p {
 
 .ok-msg.visible {
     opacity: 1;
+}
+
+@media screen and (max-width: 1024px){
+    :root {
+        --padding-horizontal: 30px;
+    }
+
+    .about-container, .experience-item{
+        grid-template-columns: 1fr;
+        padding-right: 0;
+    }
+
+    .about-text, .experience-right{
+        padding-right: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    .btn-download, .btn-submit {
+        width: 100%;
+        gap:1rem;
+    }
+    .floating-contact {
+        right: 15px;
+        bottom: 15px;
+    }
 }
