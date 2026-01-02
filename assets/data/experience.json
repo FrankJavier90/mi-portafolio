@@ -1,6 +1,17 @@
 {
     "experiences": [
         {
+        "company": "SEP secretaría de educación pública - Colima",
+        "position": "Profesor de TI",
+        "year": "2025 - Actualidad",
+        "responsibilities": [
+            "Docente de tecnologías de información y comunicación (Nivel Media superior)",
+            "Introducción en Desarrollo Web y Diseño Digital, cubriendo desde la programación hasta la creación de interfaces",
+            "Capacitación en Infraestructura y Sistemas, incluyendo redes de cómputo, mantenimiento y gestión de sistemas de información.",
+            "Formación en Cultura Digital y Ofimática Avanzada, enfocada en la gestión de archivos, hojas de cálculo y comunidades virtuales."
+        ]
+        },
+        {
         "company": "RAN Registro Agrario Nacional - Colima",
         "position": "Jefe de Área de Informática",
         "year": "2024",

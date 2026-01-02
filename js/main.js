@@ -3,7 +3,17 @@ const config = {
     email_to: 'ramirezmendozaf@gmail.com',
     data_url: 'assets/data/experience.json',
     msg_duration: 4000,
-    max_retries: 3
+};
+
+const Utils = {
+    escapeHTML(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    },
+    isEmail: (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email),
+    isPhone: (phone) => /^(\+\d{1,3})?\d{10,14}$/.test(phone.replace(/[\s\-\(\)]/g, ''))
 };
 
 /* MANEJO DE DESCARGAS */
@@ -11,72 +21,39 @@ const config = {
 class DownloadHandler {
     constructor(selector) {
         this.button = document.querySelector(selector);
-        if (!this.button) {
-            console.warn(`DownloadHandler: No se encontró el botón "${selector}"`);
-            return;
-        }
-            this.currentMessage = null;
-            this.handleClick = this.handleClick.bind(this);
-            this.button.addEventListener('click', this.handleClick);
+        if (!this.button) return;
+        this.currentMessage = null;
+        this.timeoutId = null; // Guardamos el timer
+        this.init();
+    }
+
+    init() {
+        this.button.addEventListener('click', (e) => this.handleClick(e));
     }
 
     handleClick(e) {
-        e.preventDefault();
-            const href = this.button.getAttribute('href');
-            const filename = this.button.getAttribute('download') || '';
-                if (!href) {
-                    console.error('DownloadHandler: Falta atributo href en el botón');
-                    this.showFeedback('Archivo no disponible.', true);
-                    return;
-                }
-
-        try {
-            const link = document.createElement('a');
-                    link.href = href;
-                    link.download = filename;
-                    link.rel = 'noopener';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-
-                this.showFeedback('Descarga iniciada. ¡Gracias por tu interés!');
-            } catch (error) {
-                console.error('DownloadHandler: Error al descargar:', error);
-                this.showFeedback('Error al iniciar la descarga.', true);
-            }
-        }
+        this.showFeedback('Descarga iniciada. ¡Gracias por tu interés!');
+    }
 
     showFeedback(message, isError = false) {
-        if (!this.button) return;
-            if (this.currentMessage) {
-                    this.currentMessage.remove();
+        if (this.timeoutId) clearTimeout(this.timeoutId);
+        if (this.currentMessage) {
+            this.currentMessage.remove();
         }
 
-    const msg = document.createElement('div');
+        const msg = document.createElement('div');
         msg.className = isError ? 'error-msg' : 'ok-msg';
+        msg.style.marginTop = '10px';
         msg.textContent = message;
-            this.button.insertAdjacentElement('afterend', msg);
-            this.currentMessage = msg;
-        requestAnimationFrame(() => msg.classList.add('visible'));
 
-    setTimeout(() => {
-            if (msg.parentNode) {
-                msg.remove();
-            }
+        this.button.insertAdjacentElement('afterend', msg);
+        this.currentMessage = msg;
+        this.timeoutId = setTimeout(() => {
             if (this.currentMessage === msg) {
+                msg.remove();
                 this.currentMessage = null;
             }
         }, config.msg_duration);
-    }
-
-    destroy() {
-        if (this.button && this.handleClick) {
-            this.button.removeEventListener('click', this.handleClick);
-        }
-        if (this.currentMessage) {
-            this.currentMessage.remove();
-            this.currentMessage = null;
-        }
     }
 }
 
@@ -87,206 +64,119 @@ class FormValidator {
         this.form = document.querySelector(selector);
         if (!this.form) return;
 
-        this.fields = ['nombre', 'empresa', 'correo', 'whatsapp', 'asunto', 'mensaje'];
         this.rules = {
-            nombre: [2, 50],
-            empresa: [2, 100],
-            asunto: [5, 100],
-            mensaje: [10, 1000]
+            nombre: { min: 2, max: 50, req: true },
+            empresa: { min: 2, max: 100, req: true },
+            correo: { req: true, type: 'email' },
+            whatsapp: { type: 'phone' },
+            asunto: { min: 5, max: 100, req: true },
+            mensaje: { min: 10, max: 1000, req: true }
         };
-        this.boundHandleSubmit = this.handleSubmit.bind(this);
-        this.fieldListeners = new Map();
-        this.currentMessage =null;
+
+        this.currentSuccessMsg = null;
         this.init();
     }
 
     init() {
-        this.form.addEventListener('submit', this.boundHandleSubmit);
-
-        this.form.querySelectorAll('input, textarea').forEach(field => {
-            const blurHandler = () => this.validateField(field);
-            const inputHandler = () => this.clearField(field);
-            field.addEventListener('blur', blurHandler);
-            field.addEventListener('input', inputHandler);
-            this.fieldListeners.set(field, { blurHandler, inputHandler });
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        this.form.addEventListener('blur', (e) => {
+            if (e.target.matches('input, textarea')) this.validateField(e.target);
+        }, true);
+        this.form.addEventListener('input', (e) => {
+            if (e.target.matches('input, textarea')) this.clearField(e.target);
         });
+    }
 
+    getValidationError(name, value) {
+        const rule = this.rules[name];
+        if (!rule) return null;
+
+        if (rule.req && !value) return 'Campo requerido';
+
+        if (value) {
+            if (rule.type === 'email' && !Utils.isEmail(value)) return 'Email inválido';
+            if (rule.type === 'phone' && !Utils.isPhone(value)) return 'Teléfono inválido';
+            if (rule.min && value.length < rule.min) return `Mínimo ${rule.min} caracteres`;
+            if (rule.max && value.length > rule.max) return `Máximo ${rule.max} caracteres`;
+        }
+        return null;
+    }
+
+    validateField(field) {
+        const error = this.getValidationError(field.name, field.value.trim());
+        error ? this.showError(field, error) : this.clearField(field);
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        this.clearAll();
+        const formData = new FormData(this.form);
+        const data = Object.fromEntries(formData.entries());
+        let firstErrorField = null;
 
-        const data = Object.fromEntries(this.fields.map(f => [f, this.getValue(f)]));
-        const errors = this.validateAll(data);
+        Object.keys(this.rules).forEach(name => {
+            const field = this.form.querySelector(`[name="${name}"]`);
+            if (field) {
+                const error = this.getValidationError(name, data[name]?.trim());
+                if (error) {
+                    this.showError(field, error);
+                    if (!firstErrorField) firstErrorField = field;
+                }
+            }
+        });
 
-        if (Object.keys(errors).length) {
-            this.displayErrors(errors);
-            this.focusFirstError();
+        if (firstErrorField) {
+            firstErrorField.focus();
         } else {
             this.send(data);
         }
     }
 
-    validateAll(data) {
-        const errors = {};
-        const required = ['nombre', 'empresa', 'correo', 'asunto', 'mensaje'];
-
-        required.forEach(f => !data[f] && (errors[f] = 'Campo requerido'));
-        if (data.correo && !this.isEmail(data.correo)) errors.correo = 'Email inválido';
-            if (data.whatsapp && !this.isPhone(data.whatsapp)) errors.whatsapp = 'Teléfono inválido';
-
-        for (const [field, [min, max]] of Object.entries(this.rules)) {
-            const val = data[field];
-            if (!val) continue;
-                if (val.length < min) errors[field] = `Mínimo ${min} caracteres`;
-                    if (val.length > max) errors[field] = `Máximo ${max} caracteres`;
-        }
-        return errors;
-    }
-
-    isEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-    }
-
-    isPhone(phone) {
-        return /^(\+\d{1,3})?\d{10,14}$/.test(phone.replace(/[\s\-\(\)]/g, ''));
-    }
-
-    validateField(field) {
-        const val = field.value.trim();
-        let msg = '';
-
-        if (field.required && !val)
-            { msg = 'Campo requerido';
-                }else if (field.name === 'correo' && val && !this.isEmail(val)){ msg = 'Email inválido';
-                    }else if (field.name === 'whatsapp' && val && !this.isPhone(val)){ msg = 'Teléfono inválido';
-                        }else if (val && this.rules[field.name]) {
-                            const [min, max] = this.rules[field.name];
-                                if (val.length < min) msg = `Mínimo ${min} caracteres`;
-                                    else if (val.length > max) msg = `Máximo ${max} caracteres`;
-        }
-
-        msg ? this.showError(field, msg) : this.clearField(field);
-    }
-
     send(data) {
-        console.log('Enviando:', data);
-        this.openMailClient(data);
+        const subject = encodeURIComponent(`Contacto Portafolio: ${data.asunto}`);
+        const body = encodeURIComponent(
+            `Hola Pako,\n\n` +
+            `Nombre: ${data.nombre}\n` +
+            `Empresa: ${data.empresa}\n` +
+            `Email: ${data.correo}\n` +
+            `WhatsApp: ${data.whatsapp || 'No proporcionado'}\n\n` +
+            `Mensaje:\n${data.mensaje}`
+        );
+
+        window.location.href = `mailto:${config.email_to}?subject=${subject}&body=${body}`;
         this.showSuccess();
         this.form.reset();
-        this.clearAll();
-    }
-
-    openMailClient(data) {
-        const subject = `Contacto: ${data.asunto}`;
-        const body = this.buildBody(data);
-        const mailtoLink = `mailto:${config.email_to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-        window.location.href =mailtoLink;
-
-        const gmailTab = window.open(gmail, '_blank');
-
-        if (!gmailTab) {
-            const outlookTab = window.open(outlook, '_blank');
-            if (!outlookTab) {
-                alert('Por favor, permite popups para enviar el mensaje.');
-            }
-        }
-    }
-
-    buildBody(data) {
-        return `Hola,
-
-        Me pongo en contacto contigo desde tu formulario web.
-
-        DATOS DE CONTACTO:
-        ------------------
-        Nombre: ${data.nombre}
-        Empresa: ${data.empresa}
-        Email: ${data.correo}
-        WhatsApp: ${data.whatsapp || 'No proporcionado'}
-
-        MENSAJE:
-        --------
-        ${data.mensaje}
-
-        Saludos cordiales.`;
-    }
-
-    /* INTERFAZ VISUAL Y UTILIDADES */
-    getValue(name) {
-        return this.form.querySelector(`[name="${name}"]`)?.value.trim() || '';
     }
 
     showError(field, msg) {
         const group = field.closest('.form-group');
-            if (!group) return;
-                field.classList.add('error');
-        let errorEl = group.querySelector('.error-msg');
-            if (!errorEl) {
-                errorEl = document.createElement('span');
-                errorEl.className = 'error-msg';
-                group.appendChild(errorEl);
-            }
-                errorEl.textContent = msg;
-                errorEl.style.display = 'block';
+        if (!group) return;
+
+        field.classList.add('error');
+        let errorEl = group.querySelector('.error-msg') || document.createElement('span');
+        errorEl.className = 'error-msg';
+        errorEl.textContent = msg;
+        if (!group.querySelector('.error-msg')) group.appendChild(errorEl);
     }
 
     clearField(field) {
-        const group = field.closest('.form-group');
-            if (!group) return;
-                field.classList.remove('error');
-        const errorEl = group.querySelector('.error-msg');
-            if (errorEl) errorEl.remove();
-    }
-
-    clearAll() {
-        this.form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
-        this.form.querySelectorAll('.error-msg').forEach(el => {
-            el.style.display = 'none';
-            el.textContent = '';
-        });
-    }
-
-    displayErrors(errors) {
-        Object.entries(errors).forEach(([name, msg]) => {
-            const field = this.form.querySelector(`[name="${name}"]`);
-                if (field) this.showError(field, msg);
-        });
-    }
-
-    focusFirstError() {
-        this.form.querySelector('.error')?.focus();
+        field.classList.remove('error');
+        field.closest('.form-group')?.querySelector('.error-msg')?.remove();
     }
 
     showSuccess() {
-        this.form.querySelectorAll('.ok-msg, .error-msg').forEach(m => m.remove());
-            const msg = document.createElement('div');
-            msg.className = 'ok-msg';
-            msg.innerHTML = '<i class="fas fa-check-circle"></i> ¡Mensaje listo! Se abrirá tu aplicación de correo.';
+        if (this.currentSuccessMsg) this.currentSuccessMsg.remove();
 
-            this.form.prepend(msg);
-            this.currentMessage = msg;
-
+        const msg = document.createElement('div');
+        msg.className = 'ok-msg';
+        msg.innerHTML = '<b>¡Excelente!</b> Se abrirá tu cliente de correo.';
+        this.form.prepend(msg);
+        this.currentSuccessMsg = msg;
 
         setTimeout(() => {
-            if (msg.parentNode) msg.remove();
+            msg.remove();
+            if (this.currentSuccessMsg === msg) this.currentSuccessMsg = null;
         }, config.msg_duration);
-}
-
-    destroy() {
-        if (this.form) {
-            this.form.removeEventListener('submit', this.boundHandleSubmit);
-        }
-        this.fieldListeners.forEach((handlers, field) => {
-            field.removeEventListener('blur', handlers.blurHandler);
-            field.removeEventListener('input', handlers.inputHandler);
-        });
-
-        this.fieldListeners.clear();
     }
-
 }
 
 /* CARGA DE EXPERIENCIAS */
@@ -294,235 +184,160 @@ class FormValidator {
 class ExperienceLoader {
     constructor(selector) {
         this.container = document.querySelector(selector);
-        if (!this.container) {
-            console.warn(`ExperienceLoader: No se encontró el contenedor "${selector}"`);
-            return;
+        if (this.container) {
+            this.load();
+        } else {
+            console.warn(`ExperienceLoader: El selector "${selector}" no existe en el DOM.`);
         }
-        this.abortController = new AbortController();
-        this.load();
     }
 
     async load() {
-        if (!config?.data_url) {
-                console.error('Configuración inválida: falta config.data_url');
-                    this.renderError('Error de configuración: No se encontró la URL de datos.');
-                    return;
-        }
-                    this.container.innerHTML = '<p class="loading-msg">Cargando experiencias...</p>';
-
         try {
+            this.container.innerHTML = '<p class="loading-msg">Cargando trayectoria...</p>';
+
             const response = await fetch(config.data_url);
                 if (!response.ok) {
-                    throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
-            }
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
             const data = await response.json();
-                if (!data?.experiences || !Array.isArray(data.experiences)) {
-                    throw new Error('Estructura de datos inválida: falta "experiences"');
-            }
+                if (!data.experiences || !Array.isArray(data.experiences) || data.experiences.length === 0) {
+                    this.container.innerHTML = '<p>No se encontraron experiencias registradas.</p>';
+                    return;
+                }
 
-            const validExperiences = data.experiences.filter(exp => {
-                return exp && typeof exp === 'object' && !Array.isArray(exp);
-            });
-
-            if (validExperiences.length === 0) {
-                throw new Error('No hay experiencias válidas en los datos');
-            }
-
-            this.render(validExperiences);
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                console.log('Carga de experiencias cancelada');
-                return;
-            }
-
-            console.error('Error cargando experiencias:', error);
-            this.renderError('No se pudieron cargar las experiencias. Intenta más tarde.');
+            this.render(data.experiences);
+        } catch (err) {
+            console.error('Error al cargar experiencias:', err);
+            this.container.innerHTML = '<p class="error-msg">Lo sentimos, no se pudo cargar la trayectoria profesional. Intenta recargar la página.</p>';
         }
     }
 
     render(experiences) {
-        if (!experiences.length) {
-            this.container.innerHTML = '<p>No hay experiencias disponibles.</p>';
-            return;
-        }
+        const htmlContent = experiences.map(exp => {
+            const company = Utils.escapeHTML(exp.company || 'Empresa');
+            const position = Utils.escapeHTML(exp.position || 'Cargo');
+            const year = Utils.escapeHTML(exp.year || '');
+            const respList = Array.isArray(exp.responsibilities)
+                ? exp.responsibilities.map(r => `<li>${Utils.escapeHTML(r)}</li>`).join('')
+                : '<li>Responsabilidades no especificadas</li>';
+            return `
+                <article class="experience-item">
+                    <div class="experience-left">
+                        <h3 class="job-title">${company}</h3>
+                        <p class="job-position">${position}</p>
+                        <span class="job-year">${year}</span>
+                    </div>
+                    <div class="experience-right">
+                        <ul class="job-responsibilities">
+                            ${respList}
+                        </ul>
+                    </div>
+                </article>
+            `;
+        }).join('');
 
-        this.container.innerHTML = experiences.map(exp => this.createHTML(exp)).join('');
-    }
-    escapeHTML(str) {
-        if (!str) return '';
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
-
-    createHTML(exp) {
-        const list = Array.isArray(exp.responsibilities) && exp.responsibilities.length
-            ? exp.responsibilities.map(r => `<li>${this.escapeHTML(r)}</li>`).join('')
-            : '<li>Sin información disponible</li>';
-
-        return `
-        <div class="experience-item">
-            <div class="experience-left">
-                <h3 class="job-title">${this.escapeHTML(exp.company || 'Empresa desconocida')}</h3>
-                <p class="job-position">${this.escapeHTML(exp.position || 'Cargo no especificado')}</p>
-                <span class="job-year">${this.escapeHTML(exp.year || '')}</span>
-            </div>
-            <div class="experience-right">
-                <ul class="job-responsibilities">${list}</ul>
-            </div>
-        </div>`;
-    }
-
-    renderError(message) {
-        const p = document.createElement('p');
-            p.className = 'error-msg';
-            p.textContent = message;
-            this.container.innerHTML = '';
-            this.container.appendChild(p);
-    }
-
-    destroy() {
-        if (this.abortController) {
-            this.abortController.abort();
-        }
-
-        if (this.container) {
-            this.container.innerHTML = '';
-        }
+        this.container.innerHTML = htmlContent;
     }
 }
 
 /* MANEJO DEL MENÚ */
 
 class MenuHandler {
-    constructor(btnSelector, menuSelector, config = {}) {
-        this.menuBtn = document.querySelector(btnSelector);
+    constructor(btnSelector, menuSelector) {
+        this.btn = document.querySelector(btnSelector);
         this.menu = document.querySelector(menuSelector);
-        if (!this.menuBtn || !this.menu) {
-            console.error(`MenuHandler: No se encontraron elementos`);
-            return;
-        }
-        this.config = config;
+
+        if (!this.btn || !this.menu) return;
+
         this.isOpen = false;
-
-        this.handleMenuBtnClick = this.handleMenuBtnClick.bind(this);
-        this.handleOutsideClick = this.handleOutsideClick.bind(this);
-        this.handleMenuClick = this.handleMenuClick.bind(this);
-
         this.init();
     }
 
     init() {
-        this.menuBtn.addEventListener('click', this.handleMenuBtnClick);
-        this.menu.addEventListener('click', this.handleMenuClick);
-        document.addEventListener('click', this.handleOutsideClick);
-
-        this.menuBtn.setAttribute('aria-expanded', 'false');
-        this.menu.setAttribute('aria-hidden', 'true');
-        this.menu.setAttribute('inert', '');
+        this.close();
+        this.btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.isOpen ? this.close() : this.open();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) this.close();
+        });
+        document.addEventListener('click', (e) => {
+            if (this.isOpen && !this.menu.contains(e.target) && e.target !== this.btn) {
+                this.close();
+            }
+        });
+        this.menu.addEventListener('click', (e) => {
+            if (e.target.closest('a')) this.close();
+        });
     }
 
-    handleMenuBtnClick(e) {
-        e.stopPropagation();
-        this.isOpen ? this.closeMenu() : this.openMenu();
-    }
-
-    handleOutsideClick(e) {
-        if (!this.menu.contains(e.target) && !this.menuBtn.contains(e.target)) {
-            this.closeMenu();
-        }
-    }
-    handleMenuClick(e) {
-        if (e.target.closest('a')) {
-            const link = e.target.closest('a');
-            const href = link.getAttribute('href');
-
-            if (href && href.startsWith('#')) {
-                e.preventDefault();
-                this.closeMenu(); // Al cerrar aquí, el foco vuelve al botón
-
-                const targetId = href.substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            } else {
-                this.closeMenu();
-        }
-    }
-}
-
-    openMenu() {
+    open() {
         this.isOpen = true;
-        this.menu.classList.add('active');
-        this.menuBtn.setAttribute('aria-expanded', 'true');
-        this.menu.setAttribute('aria-hidden', 'false');
-
-        this.menu.removeAttribute('inert');
-
-        if (typeof this.config?.onOpen === 'function') this.config.onOpen();
+    this.menu.classList.add('active');
+    this.btn.setAttribute('aria-expanded', 'true');
+    this.btn.classList.add('is-active');
+    this.menu.setAttribute('aria-hidden', 'false');
+    this.menu.removeAttribute('inert')
     }
 
-    closeMenu() {
+    close() {
         if (!this.isOpen) return;
-        this.menuBtn.focus();
-        this.isOpen = false;
-        this.menu.classList.remove('active');
-        this.menuBtn.setAttribute('aria-expanded', 'false');
-        this.menu.setAttribute('aria-hidden', 'true');
 
-        this.menu.setAttribute('inert', '');
-
-        if (typeof this.config?.onClose === 'function') this.config.onClose();
-    }
-
-    destroy() {
-        if (this.menuBtn) {
-            this.menuBtn.removeEventListener('click', this.handleMenuBtnClick);
-        }
-        if (this.menu) {
-            this.menu.removeEventListener('click', this.handleMenuClick);
-        }
-        document.removeEventListener('click', this.handleOutsideClick);
+    this.isOpen = false;
+    this.menu.classList.remove('active');
+    this.btn.setAttribute('aria-expanded', 'false');
+    this.btn.classList.remove('is-active');
+    this.btn.focus();
+    this.menu.setAttribute('aria-hidden', 'true');
+    this.menu.setAttribute('inert', '');
     }
 }
-
 
 /* INICIALIZACIÓN GLOBAL */
 
 const app = {
-    handlers: {}
+    handlers: {},
+    ui: {
+        get header() { return document.querySelector('.site-header'); },
+        get floating() { return document.querySelector('.floating-contact'); }
+    }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    app.handlers.download = new DownloadHandler('.btn-download', '#btnDownloadCV');
-    app.handlers.experience = new ExperienceLoader('#experience-list');
-    app.handlers.form = new FormValidator('.contact-form');
-    app.handlers.menu = new MenuHandler('#menuBtn', '#menuDropdown', {
-        onClose: () => console.log('Menú cerrado')
-    });
+const init = () => {
+    try {
+        app.handlers.download = new DownloadHandler('.btn-download');
+        app.handlers.experience = new ExperienceLoader('#experience-list');
+        app.handlers.form = new FormValidator('.contact-form');
+        app.handlers.menu = new MenuHandler('#menuBtn', '#menuDropdown');
 
-    console.log('App inicializada:', Object.keys(app.handlers));
-});
-
-window.addEventListener('beforeunload', () => {
-    Object.values(app.handlers).forEach(handler => {
-        if (handler?.destroy) {
-            try {
-                handler.destroy();
-            } catch (e) {
-                console.error('Error en cleanup:', e);
-            }
+        if (app.ui.header) {
+            app.ui.header.classList.toggle('scrolled', window.scrollY > 50);
         }
-    });
+
+        console.log('App: Inicializada correctamente');
+    } catch (error) {
+        console.error('App Error: Fallo en la inicialización de módulos', error);
+    }
+};
+
+let isScrolling = false;
+    const handleScroll = () => {
+        const header = app.ui.header;
+        if (header) {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        }
+    };
 
 window.addEventListener('scroll', () => {
-    const nav = document.querySelector('.main-nav');
-
-    if (window.scrollY > 100) {
-        nav.classList.add('scrolled');
-    } else {
-        nav.classList.remove('scrolled');
+    if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+            handleScroll();
+            isScrolling = false;
+        });
+        isScrolling = true;
     }
-});
-});
+}, { passive: true });
+
+document.addEventListener('DOMContentLoaded', init);
