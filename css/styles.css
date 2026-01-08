@@ -11,7 +11,7 @@
     --padding-horizontal: 90px;
     --header-space: 100px;
     --shadow-primary: rgba(0, 71, 67, 0.25);
-    color-scheme: light;
+    --color-scheme: light;
 }
 
 *, *::before, ::after {
@@ -40,6 +40,7 @@ p {
 /* Heder / Menu */
 
 .site-header {
+    --header-content-color: var(--color-primary);
     position: absolute;
     top: 0;
     left: 0;
@@ -51,6 +52,35 @@ p {
     z-index: 1000;
     background:transparent;
     transition: all 0.3s ease;
+}
+
+.site-header.on-dark {
+    --header-content-color: var(--color-background);
+}
+
+
+.site-header .menu-btn {
+    color: var(--header-content-color) !important;
+    border-color: var(--header-content-color) !important;
+    background-color: transparent;
+    transition: all 0.4s ease-in-out;
+}
+
+.site-header.on-dark .menu-btn {
+    --header-content-color: var(--color-background) !important;
+    background-color: transparent; 
+    color: var(--color-background) !important;
+    border-color: var(--color-background) !important;
+}
+
+.site-header .hamburger span {
+    background-color: currentColor !important;
+    transition: background-color 0.3s ease;
+    border: 1px ;
+}
+
+.site-header.on-dark .hamburger span {
+    background-color: var(--color-background) !important;
 }
 
 .site-header.scrolled {
@@ -77,11 +107,11 @@ p {
     -moz-appearance: none;
     appearance: none;
     background: none;
-    border: 1px solid var(--color-primary);
-    color: #004743;
+    border: 1px solid;
     padding: 12px 22px;
     font-size: 1rem;
     border-radius: 30px;
+    border: 1px solid;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -99,8 +129,8 @@ p {
 }
 
 .menu-btn:hover {
-    background-color: var(--color-primary);
-    color: var(--color-background);
+    background-color: var(--header-content-color);
+    color: var(--color-background) !important;
 }
 
 .hamburger {
@@ -113,6 +143,7 @@ p {
     width: 18px;
     height: 2px;
     background-color: currentColor;
+    transition: background-color 0.3s ease;
 }
 
 /* Menú desplegable */

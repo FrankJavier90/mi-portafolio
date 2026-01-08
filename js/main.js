@@ -301,7 +301,8 @@ const app = {
     handlers: {},
     ui: {
         get header() { return document.querySelector('.site-header'); },
-        get floating() { return document.querySelector('.floating-contact'); }
+        get floating() { return document.querySelector('.floating-contact'); },
+        get contactSection() { return document.querySelector('#contact'); },
     }
 };
 
@@ -312,6 +313,26 @@ const init = () => {
         app.handlers.form = new FormValidator('.contact-form');
         app.handlers.menu = new MenuHandler('#menuBtn', '#menuDropdown');
 
+        const header = app.ui.header;
+        const contact = app.ui.contactSection;
+        const options = {
+                threshold: 0,
+                rootMargin: "-80px 0px -90% 0px"
+                };
+
+        if (header && contact) {
+            const contactObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        header.classList.add('on-dark');
+                    } else {
+                        header.classList.remove('on-dark');
+                    }
+                });
+            }, options);
+            contactObserver.observe(contact);
+        }
+
         if (app.ui.header) {
             app.ui.header.classList.toggle('scrolled', window.scrollY > 50);
         }
@@ -321,6 +342,8 @@ const init = () => {
         console.error('App Error: Fallo en la inicialización de módulos', error);
     }
 };
+
+
 
 let isScrolling = false;
     const handleScroll = () => {
