@@ -23,7 +23,7 @@ class DownloadHandler {
         this.button = document.querySelector(selector);
         if (!this.button) return;
         this.currentMessage = null;
-        this.timeoutId = null; // Guardamos el timer
+        this.timeoutId = null; 
         this.init();
     }
 
@@ -42,8 +42,7 @@ class DownloadHandler {
         }
 
         const msg = document.createElement('div');
-        msg.className = isError ? 'error-msg' : 'ok-msg';
-        msg.style.marginTop = '10px';
+        msg.className = `feedback-msg ${isError ? 'error-msg' : 'ok-msg'}`;
         msg.textContent = message;
 
         this.button.insertAdjacentElement('afterend', msg);

@@ -68,7 +68,7 @@ p {
 
 .site-header.on-dark .menu-btn {
     --header-content-color: var(--color-background) !important;
-    background-color: transparent; 
+    background-color: transparent;
     color: var(--color-background) !important;
     border-color: var(--color-background) !important;
 }
@@ -699,6 +699,7 @@ p {
 .contact-form {
     max-width: 800px;
     margin: 0 auto;
+    color-scheme: dark;
 }
 
 .form-row {
@@ -706,6 +707,13 @@ p {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
 }
 
 .form-group {
@@ -752,6 +760,15 @@ p {
     resize: vertical;
     min-height: 120px;
 }
+
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-primary) inset;
+    -webkit-text-fill-color: #fff;
+    transition: background-color 9999s ease-in-out 0s;
+    font-family: inherit !important
+}
+
 
 .btn-submit {
     display: flex;
@@ -821,6 +838,10 @@ p {
 
 .ok-msg.visible {
     opacity: 1;
+}
+
+.feedback-msg {
+    margin-top: 10px;
 }
 
 @media screen and (max-width: 1024px){
