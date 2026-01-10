@@ -21,40 +21,35 @@ const Utils = {
 class DownloadHandler {
     constructor(selector) {
         this.button = document.querySelector(selector);
+        this.feedbackContainer = document.getElementById('downloadMsg');
+        this.timeoutId = null;
+
         if (!this.button) return;
-        this.currentMessage = null;
-        this.timeoutId = null; 
         this.init();
     }
 
     init() {
-        this.button.addEventListener('click', (e) => this.handleClick(e));
+        this.button.addEventListener('click', () => {
+            this.showFeedback('CV descargado. ¡Gracias por tu interés!');
+        });
     }
 
-    handleClick(e) {
-        this.showFeedback('Descarga iniciada. ¡Gracias por tu interés!');
-    }
+    showFeedback(message) {
+        if (!this.feedbackContainer) return;
+            if (this.timeoutId) clearTimeout(this.timeoutId);
 
-    showFeedback(message, isError = false) {
-        if (this.timeoutId) clearTimeout(this.timeoutId);
-        if (this.currentMessage) {
-            this.currentMessage.remove();
-        }
-
-        const msg = document.createElement('div');
-        msg.className = `feedback-msg ${isError ? 'error-msg' : 'ok-msg'}`;
-        msg.textContent = message;
-
-        this.button.insertAdjacentElement('afterend', msg);
-        this.currentMessage = msg;
-        this.timeoutId = setTimeout(() => {
-            if (this.currentMessage === msg) {
-                msg.remove();
-                this.currentMessage = null;
+                this.feedbackContainer.textContent = message;
+                this.feedbackContainer.classList.add('active');
+                this.timeoutId = setTimeout(() => {
+                    this.feedbackContainer.classList.remove('active');
+                    setTimeout(() => {
+                        if (!this.feedbackContainer.classList.contains('active')) {
+                            this.feedbackContainer.textContent = '';
+                        }
+                    }, 400);
+                }, 5000);
             }
-        }, config.msg_duration);
-    }
-}
+        }
 
 /* VALIDACIÓN DE FORMULARIO */
 
@@ -307,7 +302,7 @@ const app = {
 
 const init = () => {
     try {
-        app.handlers.download = new DownloadHandler('.btn-download');
+        app.handlers.download = new DownloadHandler('#btnDownloadCV');
         app.handlers.experience = new ExperienceLoader('#experience-list');
         app.handlers.form = new FormValidator('.contact-form');
         app.handlers.menu = new MenuHandler('#menuBtn', '#menuDropdown');
