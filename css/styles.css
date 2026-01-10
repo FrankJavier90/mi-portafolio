@@ -381,11 +381,28 @@ p {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-download:hover,
-.btn-download:focus-visible {
+
+.btn-download:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px var(--shadow-primary);
     outline: none;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+
+.btn-download:focus-visible {
+    transform: translateY(-2px);
+    outline: 3px solid var(--color-primary);
+    outline-offset: 4px;
+    box-shadow: none;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+.btn-download:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: 0 6px 20px var(--shadow-primary);
 }
 
 .icon-circle {
